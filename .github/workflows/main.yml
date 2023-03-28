@@ -40,3 +40,8 @@ jobs:
           push: true
           tags: ghcr.io/devsoleo/brief-8:latest
           labels: ${{ steps.meta.outputs.labels }}
+          
+      - name: Connexion au cluster kubernetes
+        run: |
+          echo ${{ secrets.KUBECONFIG }} > ~/.kube/config
+          kubectl create secret generic redis-credentials --from-literal=username=mydbusername --from-literal=password=myinsanepassword
