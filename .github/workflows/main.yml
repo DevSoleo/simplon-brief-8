@@ -41,12 +41,10 @@ jobs:
           tags: ghcr.io/devsoleo/brief-8:latest
           labels: ${{ steps.meta.outputs.labels }}
           
-      - uses: azure/k8s-set-context@v2
-        with:
-           method: kubeconfig
-           kubeconfig: ${{ secrets.KUBECONFIG }}
-           context: context
-           
+      - name: Connexion au cluster kubernetes
+        run: |
+          echo ${{ secrets.KUBECONFIG }} > ~/.kube/config
+          
       - name: Display config
         run: |
           kubectl create secret generic redis-credentials --from-literal=username=mydbusername --from-literal=password=myinsanepassword
