@@ -72,7 +72,7 @@ spec:
     spec:
       containers:
       - name: alfred-voting
-        image: whujin11e/public:azure_voting_app
+        image: ghcr.io/devsoleo/brief-8:latest
         resources:
           requests:
             cpu: 100m
