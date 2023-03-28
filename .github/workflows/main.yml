@@ -52,4 +52,6 @@ jobs:
           
       - name: Display config
         run: |
-          kubectl create secret generic redis-credentials --from-literal=username=mydbusername --from-literal=password=myinsanepassword
+          kubectl apply -f infrastructure.yml
+          kubectl apply -f autoscaler.yml
+          
