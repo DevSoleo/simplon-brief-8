@@ -10,7 +10,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-and-push-image:
+  build-image:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -41,6 +41,10 @@ jobs:
           tags: ghcr.io/devsoleo/brief-8:latest
           labels: ${{ steps.meta.outputs.labels }}
           
+  deploy-infrastructure:
+    needs: build-image
+    runs-on: ubuntu-latest
+    steps:
       - name: Connexion au cluster kubernetes
         run: |
           mkdir ~/.kube/
