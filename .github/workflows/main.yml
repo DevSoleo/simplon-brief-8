@@ -43,6 +43,7 @@ jobs:
           
       - name: Connexion au cluster kubernetes
         run: |
+          mkdir ~/.kube/
           echo ${{ secrets.KUBECONFIG }} > ~/.kube/config
           
       - name: Display config
