@@ -68,8 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test service avaibility
-        run: |
-          curl -I "https://${{ env.DOMAIN_NAME }}" 2>&1 | awk '/HTTP\// {print $2}'
+        run: curl -I "https://${{ env.DOMAIN_NAME }}" --connect-timeout 5 2>&1 | awk '/HTTP\// {print $2}'
         id: http_code
       - name: Checking test output
         run: |
