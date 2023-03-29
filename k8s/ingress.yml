@@ -13,7 +13,7 @@ spec:
       - devsoleo.fr
       secretName: frontend-tls
   rules:
-  - host: devsoleo.fr
+  - host: prod.devsoleo.fr
     http:
       paths:
       - path: /
