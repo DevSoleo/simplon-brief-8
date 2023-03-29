@@ -8,41 +8,42 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  DOMAIN_NAME: devsoleo.fr
 
 jobs:
-  build-image:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Connexion au registry de GitHub
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: ghcr.io/devsoleo/brief-8:latest
-          labels: ${{ steps.meta.outputs.labels }}
+  #build-image:
+  #  runs-on: ubuntu-latest
+  #  permissions:
+  #    contents: read
+  #    packages: write
+  #
+  #  steps:
+  #    - name: Checkout repository
+  #      uses: actions/checkout@v3
+  #
+  #    - name: Connexion au registry de GitHub
+  #      uses: docker/login-action@v2
+  #      with:
+  #        registry: ${{ env.REGISTRY }}
+  #        username: ${{ github.actor }}
+  #        password: ${{ secrets.GITHUB_TOKEN }}
+  #
+  #    - name: Extract metadata (tags, labels) for Docker
+  #      id: meta
+  #      uses: docker/metadata-action@v4
+  #      with:
+  #        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+  #
+  #    - name: Build and push Docker image
+  #      uses: docker/build-push-action@v3
+  #      with:
+  #        context: .
+  #        push: true
+  #        tags: ghcr.io/devsoleo/brief-8:latest
+  #        labels: ${{ steps.meta.outputs.labels }}
           
   deploy-infrastructure:
-    needs: build-image
+    # needs: build-image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -60,3 +61,11 @@ jobs:
           kubectl apply -f ./k8s/autoscaler.yml
           kubectl apply -f ./k8s/ingress.yml
           kubectl apply -f ./k8s/certificate-issuer.yml
+          
+  tests:
+    needs: deploy-infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test disponibility
+        run: |
+          curl -I "https://${{ env.DOMAIN_NAME }}" 2>&1 | awk '/HTTP\// {print $2}'
