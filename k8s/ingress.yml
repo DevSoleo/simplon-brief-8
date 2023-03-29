@@ -1,55 +1,28 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: simple-frontend-ingress
-  namespace: production
-  annotations:
-    kubernetes.io/ingress.class: azure/application-gateway
-    appgw.ingress.kubernetes.io/ssl-redirect: "true"
-    cert-manager.io/issuer: letsencrypt-prod
-    cert-manager.io/acme-challenge-type: http01
-spec:
-  tls:
-    - hosts:
-      - prod.devsoleo.fr
-      secretName: frontend-tls
-  rules:
-  - host: prod.devsoleo.fr
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: front-service
-            port: 
-              number: 80
-
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: simple-frontend-ingress
-  namespace: canary
   annotations:
-    kubernetes.io/ingress.class: azure/application-gateway
-    appgw.ingress.kubernetes.io/ssl-redirect: "true"
+    ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "20"
     cert-manager.io/issuer: letsencrypt-prod
     cert-manager.io/acme-challenge-type: http01
+  name: ingress-echo-canary
 spec:
+  ingressClassName: nginx-default
   tls:
-    - hosts:
-      - canary.devsoleo.fr
-      secretName: frontend-tls
+  - hosts:
+    - prod.devsoleo.fr
+    secretName: frontend-tls
   rules:
-  - host: canary.devsoleo.fr
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: front-service
-            port: 
-              number: 80
-             
+    - host: devsoleo.fr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: front-service
+                port:
+                  number: 80
