@@ -10,7 +10,7 @@ metadata:
     cert-manager.io/acme-challenge-type: http01
   name: ingress-tls-canary
 spec:
-  ingressClassName: nginx-default
+  ingressClassName: nginx-prod
   tls:
   - hosts:
     - devsoleo.fr
