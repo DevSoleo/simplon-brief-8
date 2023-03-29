@@ -69,3 +69,17 @@ jobs:
       - name: Test disponibility
         run: |
           curl -I "https://${{ env.DOMAIN_NAME }}" 2>&1 | awk '/HTTP\// {print $2}'
+          id: http_code
+      - name: Vérification de la sortie
+        run: |
+          if [ "${{ steps.http_code.outcome }}" == "Success" ]; then
+            if [ "${{ steps.http_code.exit_code }}" -eq "200" ]; then
+              echo "La sortie est égale à 200, le pipeline se poursuit."
+            else
+              echo "La sortie n'est pas égale à 200, le pipeline s'interrompt."
+              exit 1
+            fi
+          else
+            echo "La commande n'a pas réussi à s'exécuter, le pipeline s'interrompt."
+            exit 1
+          fi
