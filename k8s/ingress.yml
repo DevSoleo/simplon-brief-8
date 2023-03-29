@@ -10,6 +10,7 @@ metadata:
 spec:
   tls:
     - hosts:
+      - prod.devsoleo.fr
       - devsoleo.fr
       secretName: frontend-tls
   rules:
