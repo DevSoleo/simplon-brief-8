@@ -10,10 +10,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - mydomain.com
+      - devsoleo.fr
       secretName: frontend-tls
   rules:
-  - host: mydomain.com
+  - host: devsoleo.fr
     http:
       paths:
       - path: /
