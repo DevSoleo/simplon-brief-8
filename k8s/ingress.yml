@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/canary-weight: "20"
     cert-manager.io/issuer: letsencrypt-prod
     cert-manager.io/acme-challenge-type: http01
-  name: ingress-echo-canary
+  name: ingress-tls-canary
 spec:
   ingressClassName: nginx-default
   tls:
