@@ -52,8 +52,6 @@ jobs:
           
       - name: Display config
         run: |
-          ls -la
-          pwd
-          kubectl apply -f ./k8s/infrastructure.yml
-          kubectl apply -f ./k8s/autoscaler.yml
+          kubectl apply -f ../k8s/infrastructure.yml
+          kubectl apply -f ../k8s/autoscaler.yml
           
