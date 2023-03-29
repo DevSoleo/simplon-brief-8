@@ -13,7 +13,7 @@ spec:
   ingressClassName: nginx-default
   tls:
   - hosts:
-    - prod.devsoleo.fr
+    - devsoleo.fr
     secretName: frontend-tls
   rules:
     - host: devsoleo.fr
