@@ -66,20 +66,15 @@ jobs:
     needs: deploy-infrastructure
     runs-on: ubuntu-latest
     steps:
-      - name: Test disponibility
+      - name: Test service avaibility
         run: |
           curl -I "https://${{ env.DOMAIN_NAME }}" 2>&1 | awk '/HTTP\// {print $2}'
         id: http_code
-      - name: Vérification de la sortie
+      - name: Checking test output
         run: |
-          if [ "${{ steps.http_code.outcome }}" == "Success" ]; then
-            if [ "${{ steps.http_code.exit_code }}" -eq "201" ]; then
-              echo "La sortie est égale à 200, le pipeline se poursuit."
-            else
-              echo "La sortie n'est pas égale à 200, le pipeline s'interrompt."
-              exit 1
-            fi
+          if [ "${{ steps.http_code.exit_code }}" -eq "200" ]; then
+            echo "HTTP Code : 200, site accessible !"
           else
-            echo "La commande n'a pas réussi à s'exécuter, le pipeline s'interrompt."
+            echo "HTTP Code : ${{ steps.http_code.exit_code }}, site inaccessible !"
             exit 1
           fi
