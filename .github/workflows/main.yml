@@ -73,7 +73,7 @@ jobs:
       - name: Vérification de la sortie
         run: |
           if [ "${{ steps.http_code.outcome }}" == "Success" ]; then
-            if [ "${{ steps.http_code.exit_code }}" -eq "200" ]; then
+            if [ "${{ steps.http_code.exit_code }}" -eq "201" ]; then
               echo "La sortie est égale à 200, le pipeline se poursuit."
             else
               echo "La sortie n'est pas égale à 200, le pipeline s'interrompt."
