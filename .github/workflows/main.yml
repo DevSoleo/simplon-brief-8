@@ -73,8 +73,8 @@ jobs:
       - name: Checking test output
         run: |
           if [ "${{ steps.http_code.exit_code }}" -eq "200" ]; then
-            echo "HTTP Code : 200, site accessible !"
+            echo "Service disponible (200)"
           else
-            echo "HTTP Code : ${{ steps.http_code.exit_code }}, site inaccessible !"
+            echo "Service indisponible"
             exit 1
           fi
