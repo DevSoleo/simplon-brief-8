@@ -57,6 +57,7 @@ jobs:
       - name: Connexion au cluster kubernetes
         run: |
           ls -la
+          kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.8.0/cert-manager.yaml
           kubectl apply -f ./k8s/infrastructure.yml
           kubectl apply -f ./k8s/autoscaler.yml
           kubectl apply -f ./k8s/ingress.yml
