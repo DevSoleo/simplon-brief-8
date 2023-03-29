@@ -41,11 +41,6 @@ jobs:
           tags: ghcr.io/devsoleo/brief-8:latest
           labels: ${{ steps.meta.outputs.labels }}
           
-      - name: Display config
-        run: |
-          pwd
-          ls -la
-          
   deploy-infrastructure:
     needs: build-image
     runs-on: ubuntu-latest
@@ -58,8 +53,6 @@ jobs:
           mkdir ~/.kube/
           echo -e "${{ secrets.KUBECONFIG }}" > ~/.kube/config
           
-      - name: Display config
+      - name: Connexion au cluster kubernetes
         run: |
-          pwd
-          ls -la
-          
+          kubectl apply -f ./infrastructure.yml
