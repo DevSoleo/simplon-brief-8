@@ -41,10 +41,18 @@ jobs:
           tags: ghcr.io/devsoleo/brief-8:latest
           labels: ${{ steps.meta.outputs.labels }}
           
+      - name: Display config
+        run: |
+          pwd
+          ls -la
+          
   deploy-infrastructure:
     needs: build-image
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
       - name: Connexion au cluster kubernetes
         run: |
           mkdir ~/.kube/
@@ -52,6 +60,6 @@ jobs:
           
       - name: Display config
         run: |
-          kubectl apply -f ../k8s/infrastructure.yml
-          kubectl apply -f ../k8s/autoscaler.yml
+          pwd
+          ls -la
           
