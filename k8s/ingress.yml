@@ -6,6 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/canary: "true"
     nginx.ingress.kubernetes.io/canary-by-header: X-Canary
     nginx.ingress.kubernetes.io/canary-weight: "50"
+  name: ingress-nginx
 spec:
   ingressClassName: nginx
   rules:
@@ -19,3 +20,4 @@ spec:
                   number: 80
             path: /
             pathType: ImplementationSpecific
+  
